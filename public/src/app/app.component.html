@@ -1,0 +1,68 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<div><!-- Begin -->
+  <!-- use the json pipe to see how newAuthor changes in real time -->
+  <p> {{ newAuthor | json }} </p>
+  <form (submit)="postAuthorToService()"><!--form Create Author -->
+  <input type="text" name="newAuthor.name" [(ngModel)]="newAuthor.name" placeholder="Author's Name">
+  <br>
+  <input type="submit" value="Create Author">
+  </form><!--form Create Author -->
+</div><!-- End -->
+<div style="height: 300px; overflow: scroll"><!-- Begin -->
+  <h3>All the Authors</h3>
+  <table *ngFor="let idx of allAuthors | keyvalue" class="table"><!--Table for all Cakes-->
+    <br>
+    <tr>
+      <!-- <td>
+        Key: <b>{{idx.key}}</b> and Value:
+      </td> -->
+      <td>
+        <br>
+        <b>{{idx.value['name']}}</b>
+        {{idx.key}}
+        <button (click)="getOneAuthorFromService(idx.key)">Quotes</button>|||
+        <button (click)="deleteTaskFromService(idx.key)">DELETE</button>         
+      </td>
+    </tr>
+    <br>
+  </table><!--Table for all Cakes-->
+</div><!-- End -->
+<button (click)="allAuthorsFromService()" >Show Authors</button>
+<div *ngIf="Author"><!-- Begin -->
+  <table  class="table"><!-- one Author -->
+    <tr *ngFor="let idx of Author.quotes | keyvalue" style="height: 300px; overflow: scroll">
+      <td>
+          Rating: {{idx.value.vote}}
+      </td>
+      <td>
+        Comment: {{idx.value.content}}
+      </td>
+      <td>
+        <button>Vote</button>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Add to {{Author.name}}'s quotes
+        <br>
+        {{Author._id}}
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <form (submit)="postQuoteToService(Author._id)"><!--POST A Quote-->
+          <!-- use the json pipe to see how newQuote changes in real time -->
+          <p> {{ newQuote | json }} </p>
+          <input type="number" name="newQuote.vote" [(ngModel)]="newQuote.vote" placeholder="vote">
+          <br>
+          <br>
+          <input type="text" name="newQuote.content" [(ngModel)]="newQuote.content" placeholder="comment">
+          <br>
+          <input type="submit" value="Add Quote">
+        </form><!--POST A Quote-->
+      </td>
+    </tr>
+  </table><!-- one Author -->
+</div><!-- End -->
