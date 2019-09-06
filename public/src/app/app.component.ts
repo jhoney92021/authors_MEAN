@@ -14,16 +14,14 @@ implements OnInit
     allAuthors:any;
     Author:any;
     newQuote:any;
-    newAuthor:any;
     toDelete:any;
-    voteMod: any;
+    
 
     /*REQUIRED TO INTIALIZE SERVICE*/
     constructor(private _httpService: HttpService){};
     /*REQUIRED TO INTIALIZE SERVICE*/
       ngOnInit() {
-        this.allAuthorsFromService();
-        this.newAuthor = {name:""};
+        this.allAuthorsFromService();        
         this.newQuote = {vote:0,content:""};
        }
 
@@ -46,21 +44,4 @@ implements OnInit
         let temp = this._httpService.deleteAuthor(this.allAuthors[idx]._id)
         temp.subscribe(data => this.toDelete = data);
       }
-      
-      
-      postAuthorToService(){
-        let temp = this._httpService.makeAuthor(this.newAuthor)
-        temp.subscribe(data => this.newAuthor = data)
-      }
-      
-      voteUp(id, idx){
-        this._httpService.voteUp(id, idx)            
-            .subscribe(data => this.voteMod = data)
-      }
-      
-      voteDown(id, idx){ 
-        this._httpService.voteDown(id, idx)
-            .subscribe(data => this.voteMod = data)
-      }
-
 }

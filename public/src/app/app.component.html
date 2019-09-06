@@ -1,29 +1,12 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<div><!-- Begin -->
-  <!-- use the json pipe to see how newAuthor changes in real time -->
-  <p> {{ newAuthor | json }} </p>
-  <form (submit)="postAuthorToService()"><!--form Create Author -->
-    <input type="text" name="newAuthor.name" 
-    placeholder="Author's Name"
-    [(ngModel)]="newAuthor.name" 
-    required
-    minlength="3"
-    maxlength="20"
-    >
-    <br>
-    <input type="submit" value="Create Author">
-  </form><!--form Create Author -->
-</div><!-- End -->
+<app-create></app-create>
 <div style="height: 300px; overflow: scroll"><!-- Begin -->
   <h3>All the Authors</h3>
   <table *ngFor="let idx of allAuthors | keyvalue" class="table"><!--Table for all Cakes-->
     <br>
     <tr>
-      <!-- <td>
-        Key: <b>{{idx.key}}</b> and Value:
-      </td> -->
       <td>
         <br>
         <b>{{idx.value['name']}}</b>
@@ -46,32 +29,29 @@
         Comment: {{idx.value.content}}
       </td>
       <td>        
-        <button (click)="voteUp(Author._id, idx.key)">Vote Up</button>
-        <button (click)="voteDown(Author._id, idx.key)">Vote Down</button>
+        <!-- VOTE MODIFIER -->
+        <app-modify [Author]="Author" [voteToMod]="idx"></app-modify>
+        <!-- VOTE MODIFIER -->
       </td>
     </tr>
     <tr>
       <th>
         Add to {{Author.name}}'s quotes
         <br>
-        {{Author._id}}
       </th>
     </tr>
     <tr>
       <td>
         <form (submit)="postQuoteToService(Author._id)"><!--POST A Quote-->
-          <!-- use the json pipe to see how newQuote changes in real time -->
-          <p> {{ newQuote | json }} </p>
-          <input type="number" name="newQuote.vote" [(ngModel)]="newQuote.vote" placeholder="vote">
-          <br>
-          <br>
           <input type="text" name="newQuote.content" 
-          placeholder="comment"
-          [(ngModel)]="newQuote.content" 
+          placeholder="newQuote"
           required
           minlength="3"
           maxlength="20"
+          [(ngModel)]="newQuote.content" 
+          #content = "ngModel"
           >
+          <span *ngIf="!content.pristine && content.errors" class="d-inline-block text-danger">Content Error</span>
           <br>
           <input type="submit" value="Add Quote">
         </form><!--POST A Quote-->
