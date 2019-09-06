@@ -11,12 +11,18 @@ mongoose.connect('mongodb://localhost/author', {useNewUrlParser: true});
 //Quote
 var QuoteSchema = new mongoose.Schema({
     vote: {type: Number, required: true, default:0},
-    content: {type: String, required:false, default:""}
+    content: {type: String, 
+                required:false, 
+                minlength: 3,
+                default:""}
 }, { timestamps: true });
 //Quote
 //Author
 var AuthorSchema = new mongoose.Schema({
-    name: {type: String, required: true, default: "Billy"},
+    name: {type: String, 
+            required: true, 
+            minlength: 3,
+            default: "Billy"},
     quotes: [QuoteSchema]
 }, { timestamps: true });
 //Author

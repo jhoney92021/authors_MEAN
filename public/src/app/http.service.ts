@@ -28,4 +28,11 @@ export class HttpService {
   getOneAuthor(id){
     return this._http.get(`/author/${id}`);/*get a author*/
   }
+  voteUp(id, idx){
+    console.log("*************service up*************")
+    return this._http.patch(`/author/${id}/${idx}`, {mod: 1});
+  }
+  voteDown(id, idx){
+    return this._http.patch(`/author/${id}/${idx}`, {mod: -1});
+  }
 }

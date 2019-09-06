@@ -51,5 +51,18 @@ module.exports = {
             .catch(err => response.json(err))
     },
     //read 1  
+    //modify Vote
+    voteMod: (request, response) => {
+        Author.findOne({ _id: request.params._id })
+            .then(t => {
+                    t.quotes[request.params.idx].vote += request.body["mod"]
+                    t.save();
+                })
+            .then(t =>{
+                    response.json(t);
+            })
+            .catch(err => response.json(err))
+    },
+    //modify Vote
 }
 //STUFF TO EXPORT TO routes.js

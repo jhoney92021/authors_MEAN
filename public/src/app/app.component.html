@@ -5,9 +5,15 @@
   <!-- use the json pipe to see how newAuthor changes in real time -->
   <p> {{ newAuthor | json }} </p>
   <form (submit)="postAuthorToService()"><!--form Create Author -->
-  <input type="text" name="newAuthor.name" [(ngModel)]="newAuthor.name" placeholder="Author's Name">
-  <br>
-  <input type="submit" value="Create Author">
+    <input type="text" name="newAuthor.name" 
+    placeholder="Author's Name"
+    [(ngModel)]="newAuthor.name" 
+    required
+    minlength="3"
+    maxlength="20"
+    >
+    <br>
+    <input type="submit" value="Create Author">
   </form><!--form Create Author -->
 </div><!-- End -->
 <div style="height: 300px; overflow: scroll"><!-- Begin -->
@@ -23,7 +29,7 @@
         <b>{{idx.value['name']}}</b>
         {{idx.key}}
         <button (click)="getOneAuthorFromService(idx.key)">Quotes</button>|||
-        <button (click)="deleteTaskFromService(idx.key)">DELETE</button>         
+        <button (click)="deleteAuthorFromService(idx.key)">DELETE</button>         
       </td>
     </tr>
     <br>
@@ -39,8 +45,9 @@
       <td>
         Comment: {{idx.value.content}}
       </td>
-      <td>
-        <button>Vote</button>
+      <td>        
+        <button (click)="voteUp(Author._id, idx.key)">Vote Up</button>
+        <button (click)="voteDown(Author._id, idx.key)">Vote Down</button>
       </td>
     </tr>
     <tr>
@@ -58,7 +65,13 @@
           <input type="number" name="newQuote.vote" [(ngModel)]="newQuote.vote" placeholder="vote">
           <br>
           <br>
-          <input type="text" name="newQuote.content" [(ngModel)]="newQuote.content" placeholder="comment">
+          <input type="text" name="newQuote.content" 
+          placeholder="comment"
+          [(ngModel)]="newQuote.content" 
+          required
+          minlength="3"
+          maxlength="20"
+          >
           <br>
           <input type="submit" value="Add Quote">
         </form><!--POST A Quote-->

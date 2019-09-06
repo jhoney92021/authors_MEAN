@@ -15,17 +15,21 @@ implements OnInit
     Author:any;
     newQuote:any;
     newAuthor:any;
+    toDelete:any;
+    voteMod: any;
 
     /*REQUIRED TO INTIALIZE SERVICE*/
     constructor(private _httpService: HttpService){};
     /*REQUIRED TO INTIALIZE SERVICE*/
       ngOnInit() {
-        this.newQuote = {vote:0,content:""}
+        this.allAuthorsFromService();
+        this.newAuthor = {name:""};
+        this.newQuote = {vote:0,content:""};
        }
 
       allAuthorsFromService(){
-         this._httpService.getAuthors()
-            .subscribe(data => this.allAuthors = data);
+         let temp = this._httpService.getAuthors()
+            temp.subscribe(data => this.allAuthors = data);
       }
 
       getOneAuthorFromService(idx){
@@ -38,12 +42,25 @@ implements OnInit
           .subscribe(data => this.newQuote = data);
       }
 
+      deleteAuthorFromService(idx){
+        let temp = this._httpService.deleteAuthor(this.allAuthors[idx]._id)
+        temp.subscribe(data => this.toDelete = data);
+      }
       
-    postAuthorToService(){
-      let temp = this._httpService.makeAuthor(this.newAuthor)
-      console.log(`*************${JSON.stringify(this.newAuthor)}*************`)
-      console.log(`*************${JSON.stringify(temp)}*************`)
-      temp.subscribe(data => this.newAuthor = data)
-    }
+      
+      postAuthorToService(){
+        let temp = this._httpService.makeAuthor(this.newAuthor)
+        temp.subscribe(data => this.newAuthor = data)
+      }
+      
+      voteUp(id, idx){
+        this._httpService.voteUp(id, idx)            
+            .subscribe(data => this.voteMod = data)
+      }
+      
+      voteDown(id, idx){ 
+        this._httpService.voteDown(id, idx)
+            .subscribe(data => this.voteMod = data)
+      }
 
 }

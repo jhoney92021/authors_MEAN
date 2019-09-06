@@ -9,5 +9,6 @@ module.exports = function(app){
     app.post('/author/:_id', controller.quote)/*make quote*/
     app.delete('/author/:_id', controller.delete)/*delete one*/
     app.get('/author/:_id', controller.view)/*view one*/
+    app.patch('/author/:_id/:idx', controller.voteMod)/*vote Modifier*/
 }
 //STUFF TO EXPORT TO server.js
